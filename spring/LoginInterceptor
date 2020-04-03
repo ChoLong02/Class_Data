@@ -1,0 +1,80 @@
+/*
+ * Login이 필요한 기능 수행시 
+ * Session 체크를 하는 Interceptor
+ */
+package com.metop.interceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.web.servlet.FlashMap;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.support.RequestContextUtils;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class LoginInterceptor extends HandlerInterceptorAdapter{
+	// URL 전
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+		// Session 객체 생성
+		HttpSession session = request.getSession();
+		// 이동하기 전 있었던 Page URL
+		String referer = request.getHeader("referer");
+		log.info(">>>>>referer: " + referer);
+		// 이동하려고 했던 Page URL
+		String uri = request.getRequestURI();
+		String ctx = request.getContextPath();
+		String nextUrl = uri.substring(ctx.length()); 
+		String prevUrl = "";
+		String finalUrl = "http://localhost:8081/metop/";
+		
+		// 비정상적인 접근을 막는 기능!
+		if(referer == null) {
+			log.info("WARNING>> 비정상적인 접근 :(");
+			response.sendRedirect(finalUrl);
+			return false;
+		} else {
+			int indexQuery = referer.indexOf("?");
+			if(indexQuery == -1) {
+				prevUrl = referer.substring(finalUrl.length()-1);
+			} else {
+				prevUrl = referer.substring(finalUrl.length()-1, indexQuery);
+			}
+			log.info("PREV URL>>>>> " + prevUrl);
+			log.info("NEXT URL>>>>> " + nextUrl);
+			
+			if(nextUrl.equals("/board/update") || nextUrl.equals("/board/delete")) {
+				if(request.getParameter("title") == null) {
+					if(prevUrl.indexOf("board/view") == -1) {
+						log.info("WARNING>> 비정상적인 접근 :(");
+						response.sendRedirect(finalUrl);
+						return false;
+					}
+				} 
+			}
+		}
+		
+		// 정상적인 접근인 경우 실행!
+		if(session.getAttribute("userid") == null) {
+			if(prevUrl.equals(nextUrl)) {
+				log.info("WARNING>> prevUrl == nextUrl :/");
+				response.sendRedirect(finalUrl);
+				return false;
+			}
+			FlashMap fMap = RequestContextUtils.getOutputFlashMap(request);
+			fMap.put("message", "nologin");
+			fMap.put("uri", uri);
+			RequestContextUtils.saveOutputFlashMap(referer, request, response);
+			response.sendRedirect(referer);
+			return false; // 이동 X
+		} else { // Login OK
+			log.info(">>>>> LOGIN:)");
+			return true; // 이동 O
+		}
+	}
+}
