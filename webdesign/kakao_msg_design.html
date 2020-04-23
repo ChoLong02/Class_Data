@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body {
+			margin: 0; padding: 0;
+		}
+		.msg_all_wrap {
+			width: 500px;
+			height: 100vh;
+			padding: 20px;
+			background-color: skyblue;
+			display: flex;
+			flex-direction: column;
+		}
+		.chat_date_devider {
+			color: white;
+			text-align: center;
+			font-size: 15px;
+			margin: 15px;
+		}
+		.chat_date_picker {
+			background-color: rgba(0,0,0,0.2);
+			border-radius: 5px;
+			padding: 7px 10px;
+		}
+		.chat_msg_body {
+			border-radius: 5px;
+			padding: 7px 10px;
+			font-size: 15px;
+			display: flex;
+		}
+		.msg {
+			display: flex;
+			align-items: center;
+			margin: 10px 0;
+		}
+		
+		.chat_msg_me {
+			justify-content: flex-end;
+		}
+		.chat_msg_from {
+			justify-content: flex-start;
+		}
+		.chat_msg_me > .chat_msg_body {
+			background-color: yellow;
+		}
+		.chat_msg_from .chat_msg_body {
+			background-color: white;
+		}
+		.chat_message_time {
+			color: gray;
+			font-size: 12px;
+			padding: 0 5px;
+		}
+		.chat_msg_txt {
+			display: flex;
+			align-items: center;
+		}
+		.chat_msg_people {
+			display: inline-block;
+			color: #353535;
+			font-weight: bold;
+			padding-bottom: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div class="msg_all_wrap">
+		<div class="chat_date_devider">
+			<span class="chat_date_picker">2020년 4월 23일</span>
+		</div>
+		<div class="msg chat_msg_me">
+			<span class="chat_message_time">09:40</span>
+			<span class="chat_msg_body">안녕하세요:)</span>
+		</div>
+		<div class="msg chat_msg_from">
+			<div class="chat_msg_profile">
+				<span class="chat_msg_people">초롱투어</span>
+				<div class="chat_msg_txt">
+					<span class="chat_msg_body">안녕하세요^^</span>
+					<span class="chat_message_time">09:41</span>
+				</div>
+			</div>
+		</div>
+		<div class="msg chat_msg_me">
+			<span class="chat_message_time">09:42</span>
+			<span class="chat_msg_body">혹시 지금도 예약가능한가요?</span>
+		</div>
+		<div class="msg chat_msg_from">
+			<div class="chat_msg_profile">
+				<span class="chat_msg_people">초롱투어</span>
+				<div class="chat_msg_txt">
+					<span class="chat_msg_body">네 물론이죠 지역은 어디 생각하고 있으세요?</span>
+					<span class="chat_message_time">09:43</span>
+				</div>
+			</div>
+		</div>
+		<div class="msg chat_msg_me">
+			<span class="chat_message_time">09:44</span>
+			<span class="chat_msg_body">싱가포르 가고 싶어요!!!</span>
+		</div>
+	</div>
+</body>
+</html>
